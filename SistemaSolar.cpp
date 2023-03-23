@@ -81,9 +81,10 @@ int main(void) {
     for(int j=0; j<iter; j++) {
         // Para cada planeta, pego los datos en el fichero
         for(int i=0; i<N; i++) {
-            for(int k=0; k<2; k++) datos << posiciones[i][k];
-            for(int k=0; k<2; k++) datos << velocidades[i][k];
-            for(int k=0; k<2; k++) datos << acelent[i][k] << "\n";
+            for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
+            for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
+            for(int k=0; k<2; k++) datos << acelent[i][k];
+            datos << "\n";
         }
 
         // Calculo los nuevos parámetros

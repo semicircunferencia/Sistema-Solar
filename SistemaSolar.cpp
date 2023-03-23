@@ -77,7 +77,7 @@ int main(void) {
     ofstream datos;
     ofstream datospython;
     datos.open("Todo.txt");
-    datospython.open("Solo-posiciones.txt");
+    datospython.open("planets_data.dat");
 
     // Número de iteraciones en el tiempo
     for(int j=0; j<iter; j++) {

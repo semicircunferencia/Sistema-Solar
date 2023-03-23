@@ -17,7 +17,7 @@ Escribimos r en UA, m en masas solares, y reescalamos el tiempo como t'=(GM_s/d^
 d= 1 UA. En estas unidades, G=1.
 
 CONDICIONES INICIALES
-Recuerda que podemos restringir el sistema a dos dimensiones. Cada r_i, v_i tendrá dos componentes. Comoo
+Recuerda que podemos restringir el sistema a dos dimensiones. Cada r_i, v_i tendrá dos componentes. Como
 condiciones iniciales, podemos colocar todos los planetas en el eje x y todas las velocidades en el y (perpendiculares).
 
 OBJETIVOS:
@@ -37,7 +37,7 @@ OBJETIVOS:
 #define h 1e-4
 
 // Número de iteraciones
-#define iter 1e4
+#define iter 1e6
 
 // Constantes para renormalizar los parámetros
 #define Ms 1.989e30 // Masa del sol
@@ -82,7 +82,7 @@ int main(void) {
     // Número de iteraciones en el tiempo
     for(int j=0; j<iter; j++) {
         // Para cada planeta, pego los datos en los ficheros
-        for(int i=0; i<N; i++) {
+        for(int i=0; (i<N)&&(j%100==0); i++) {
             // El fichero con todo
             for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
             for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
@@ -94,7 +94,7 @@ int main(void) {
 
         }
 
-        datospython << "\n";
+        if(j%100==0) datospython << "\n";
 
         // Calculo los nuevos parámetros
         iteracionVerlet(posiciones, velocidades, acelent, acelentmash, masas);

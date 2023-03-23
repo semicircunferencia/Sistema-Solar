@@ -37,7 +37,7 @@ OBJETIVOS:
 #define h 1e-3
 
 // Número de iteraciones
-#define iter 1e4
+#define iter 1e3
 
 // Constantes para renormalizar los parámetros
 #define Ms 1.989e30 // Masa del sol
@@ -76,7 +76,7 @@ int main(void) {
     // Abro los ficheros, uno para guardar y otro para Python
     ofstream datos;
     ofstream datospython;
-    datos.open("Todo.txt");
+    datos.open("Todo.dat");
     datospython.open("planets_data.dat");
 
     // Número de iteraciones en el tiempo

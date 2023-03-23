@@ -34,10 +34,10 @@ OBJETIVOS:
 #define N 9
 
 // Step temporal
-#define h 1e-3
+#define h 1e-2
 
 // Número de iteraciones
-#define iter 1e3
+#define iter 1e4
 
 // Constantes para renormalizar los parámetros
 #define Ms 1.989e30 // Masa del sol
@@ -93,6 +93,8 @@ int main(void) {
             datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
 
         }
+
+        datospython << "\n";
 
         // Calculo los nuevos parámetros
         iteracionVerlet(posiciones, velocidades, acelent, acelentmash, masas);

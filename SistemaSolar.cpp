@@ -83,7 +83,7 @@ int main(void) {
         for(int i=0; i<N; i++) {
             for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
             for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
-            for(int k=0; k<2; k++) datos << acelent[i][k];
+            for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
             datos << "\n";
         }
 

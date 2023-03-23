@@ -37,7 +37,7 @@ OBJETIVOS:
 #define h 1e-3
 
 // Número de iteraciones
-#define iter 10e4
+#define iter 1e4
 
 // Constantes para renormalizar los parámetros
 #define Ms 1.989e30 // Masa del sol
@@ -73,25 +73,45 @@ int main(void) {
     Guniv(posiciones, acelent, masas);
     primeraiteracion(posiciones, velocidades, acelent, acelentmash, masas);
 
-    // Abro el fichero
+    // Abro los ficheros, uno para guardar y otro para Python
     ofstream datos;
-    datos.open("Resultados.txt");
+    ofstream datospython;
+    datos.open("Todo.txt");
+    datospython.open("Solo-posiciones.txt");
 
     // Número de iteraciones en el tiempo
     for(int j=0; j<iter; j++) {
-        // Para cada planeta, pego los datos en el fichero
+        // Para cada planeta, pego los datos en los ficheros
         for(int i=0; i<N; i++) {
+            // El fichero con todo
             for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
             for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
             for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
             datos << "\n";
+
+            // El fichero de Python
+            datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
+
         }
 
         // Calculo los nuevos parámetros
         iteracionVerlet(posiciones, velocidades, acelent, acelentmash, masas);
     }
 
+    // Para cada planeta, pego los últimos datos en los ficheros
+        for(int i=0; i<N; i++) {
+            // El total
+            for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
+            for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
+            for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
+            datos << "\n";
+
+             // El fichero de Python
+            datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
+        }
+
     datos.close();
+    datospython.close();
 
     return 0;
 }

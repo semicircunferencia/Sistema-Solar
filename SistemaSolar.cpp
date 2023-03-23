@@ -34,7 +34,7 @@ OBJETIVOS:
 #define N 9
 
 // Step temporal
-#define h 1e-2
+#define h 1e-4
 
 // Número de iteraciones
 #define iter 1e4

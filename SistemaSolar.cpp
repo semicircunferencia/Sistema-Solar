@@ -81,14 +81,15 @@ int main(void) {
 
     // Número de iteraciones en el tiempo
     for(int j=0; j<iter; j++) {
-        // Para cada planeta, pego los datos en los ficheros
+        // Para cada planeta, pego los datos en los ficheros, pero solo para cada 100 iteraciones
         if(j%100==0) {
             for(int i=0; i<N; i++) {
                 // El fichero con todo
                 for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
                 for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
                 for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
-                datos << "\n";
+        
+                datos << j*h << "\n";
 
                 // El fichero de Python
                 datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
@@ -110,7 +111,7 @@ int main(void) {
             for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
             for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
             for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
-            datos << "\n";
+            datos << iter*h << "\n";
 
              // El fichero de Python
             datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";

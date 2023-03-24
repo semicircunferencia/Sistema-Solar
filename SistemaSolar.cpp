@@ -82,19 +82,23 @@ int main(void) {
     // Número de iteraciones en el tiempo
     for(int j=0; j<iter; j++) {
         // Para cada planeta, pego los datos en los ficheros
-        for(int i=0; (i<N)&&(j%100==0); i++) {
-            // El fichero con todo
-            for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
-            for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
-            for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
-            datos << "\n";
+        if(j%100==0) {
+            for(int i=0; i<N; i++) {
+                // El fichero con todo
+                for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
+                for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
+                for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
+                datos << "\n";
 
-            // El fichero de Python
-            datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
+                // El fichero de Python
+                datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
+
+            }
+
+        datospython << "\n";
 
         }
-
-        if(j%100==0) datospython << "\n";
+        
 
         // Calculo los nuevos parámetros
         iteracionVerlet(posiciones, velocidades, acelent, acelentmash, masas);

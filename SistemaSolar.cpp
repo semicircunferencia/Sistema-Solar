@@ -83,13 +83,15 @@ int main(void) {
     for(int j=0; j<iter; j++) {
         // Para cada planeta, pego los datos en los ficheros, pero solo para cada 100 iteraciones
         if(j%100==0) {
+            // Escribo el tiempo en el fichero con todoo
+            datos << ctetiempo*j*h << " ";
             for(int i=0; i<N; i++) {
                 // El fichero con todo
                 for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
                 for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
                 for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
         
-                datos << ctetiempo*j*h << "\n";
+                datos << "\n";
 
                 // El fichero de Python
                 datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
@@ -106,16 +108,16 @@ int main(void) {
     }
 
     // Para cada planeta, pego los últimos datos en los ficheros
-        for(int i=0; i<N; i++) {
-            // El total
-            for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
-            for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
-            for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
-            datos << ctetiempo*iter*h << "\n";
+    datos << ctetiempo*iter*h << "  ";
+    for(int i=0; i<N; i++) {
+        // El total
+        for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
+        for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
+        for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
 
-             // El fichero de Python
-            datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
-        }
+        // El fichero de Python
+        datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
+    }
 
     datos.close();
     datospython.close();

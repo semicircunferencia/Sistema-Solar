@@ -84,7 +84,7 @@ int main(void) {
         // Para cada planeta, pego los datos en los ficheros, pero solo para cada 100 iteraciones
         if(j%100==0) {
             // Escribo el tiempo en el fichero con todoo
-            datos << ctetiempo*j*h << " ";
+            datos << "\n" << ctetiempo*j*h << "\n";
             for(int i=0; i<N; i++) {
                 // El fichero con todo
                 for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
@@ -108,7 +108,7 @@ int main(void) {
     }
 
     // Para cada planeta, pego los últimos datos en los ficheros
-    datos << ctetiempo*iter*h << "  ";
+    datos << "\n" << ctetiempo*iter*h << "\n";
     for(int i=0; i<N; i++) {
         // El total
         for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";

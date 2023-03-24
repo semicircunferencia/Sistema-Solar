@@ -41,8 +41,8 @@ OBJETIVOS:
 
 // Constantes para renormalizar los parámetros
 #define Ms 1.989e30 // Masa del sol
-#define GMs 1.327e20 // Constante G por la masa del sol
 #define UA 1.496e11 // Unidad astronómica
+#define ctetiempo 0.1593 // Si multiplicas t por esto, sale el tiempo en años
 using namespace std;
 
 // Declaro las funciones
@@ -89,7 +89,7 @@ int main(void) {
                 for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
                 for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
         
-                datos << j*h << "\n";
+                datos << ctetiempo*j*h << "\n";
 
                 // El fichero de Python
                 datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
@@ -111,7 +111,7 @@ int main(void) {
             for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
             for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
             for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
-            datos << iter*h << "\n";
+            datos << ctetiempo*iter*h << "\n";
 
              // El fichero de Python
             datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";

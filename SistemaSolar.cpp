@@ -37,7 +37,7 @@ OBJETIVOS:
 #define h 1e-4
 
 // Número de iteraciones
-#define iter 1e6
+#define iter 1e7
 
 // Constantes para renormalizar los parámetros
 #define Ms 1.989e30 // Masa del sol

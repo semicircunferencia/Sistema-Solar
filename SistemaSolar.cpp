@@ -150,6 +150,10 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             fichero >> velocidades[j][1];
         }
 
+        // PERTURBO JÚPITER Y URANO
+        velocidades[5][0]=0.15;
+        velocidades[7][0]=0.07;
+
         fichero.close();
     }
 

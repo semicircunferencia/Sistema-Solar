@@ -98,7 +98,7 @@ int main(void) {
 
             }
 
-        datospython << "\n";
+            datospython << "\n";
 
         }
         
@@ -174,7 +174,7 @@ void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]) {
         // Sumo la contribución de la masa j, j distinto de i
         for (int j=0; j<N; j++) {
             if(j==i) continue;
-            else{
+            else {
                 // k=1 es la componente x, k=2 es la componente y
                 for(int k=0; k<2; k++) {
                     aceleraciones[i][k]+=-masas[j]*

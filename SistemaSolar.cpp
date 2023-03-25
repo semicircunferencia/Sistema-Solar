@@ -93,8 +93,8 @@ int main(void) {
         
                 datos << "\n";
 
-                // El fichero de Python
-                datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
+                // El fichero de Python. ORIGEN EN LA TIERRA
+                datospython << posiciones[i][0]-posiciones[3][0] << "," << posiciones[i][1]-posiciones[3][1] << "\n";
 
             }
 
@@ -149,10 +149,6 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             velocidades[j][0]=0;
             fichero >> velocidades[j][1];
         }
-
-        // PERTURBO JÚPITER Y URANO
-        velocidades[5][0]=0.15;
-        velocidades[7][0]=0.07;
 
         fichero.close();
     }

@@ -115,6 +115,8 @@ int main(void) {
         for(int k=0; k<2; k++) datos << setw(15) << velocidades[i][k];
         for(int k=0; k<2; k++) datos << setw(15) << acelent[i][k];
 
+        datos << "\n";
+
         // El fichero de Python
         datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
     }

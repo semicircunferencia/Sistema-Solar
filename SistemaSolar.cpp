@@ -84,7 +84,7 @@ int main(void) {
     datosenergiaymomento.open("Energia_y_momento.dat");
 
     // Número de iteraciones en el tiempo
-    for(int j=0; j<iter; j++) {
+    for(int j=0; j<=iter; j++) {
         // Para cada planeta, pego los datos en los ficheros, pero solo para cada 100 iteraciones
         if(j%100==0) {
             // Escribo el tiempo en el fichero con todo
@@ -116,25 +116,6 @@ int main(void) {
         // Calculo los nuevos parámetros
         iteracionVerlet(posiciones, velocidades, acelent, acelentmash, masas);
     }
-
-    // Para cada planeta, pego los últimos datos en los ficheros
-    datos << ctetiempo*iter*h << "\n";
-    for(int i=0; i<N; i++) {
-        // El total
-        for(int k=0; k<2; k++) datos << setw(15) << posiciones[i][k];
-        for(int k=0; k<2; k++) datos << setw(15) << velocidades[i][k];
-        for(int k=0; k<2; k++) datos << setw(15) << acelent[i][k];
-
-        datos << "\n";
-
-        // El fichero de Python
-        datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
-    }
-
-    // Energía y momento
-    datosenergiaymomento << setw(15) << iter*h << setw(15) <<
-    energiakin(velocidades, masas)+energiapot(posiciones, masas) << setw(15) <<
-    momentoangular(posiciones, velocidades, masas) << "\n";
 
     datos.close();
     datospython.close();

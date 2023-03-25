@@ -83,7 +83,7 @@ int main(void) {
     for(int j=0; j<iter; j++) {
         // Para cada planeta, pego los datos en los ficheros, pero solo para cada 100 iteraciones
         if(j%100==0) {
-            // Escribo el tiempo en el fichero con todoo
+            // Escribo el tiempo en el fichero con todo
             datos << "\n" << ctetiempo*j*h << "\n";
             for(int i=0; i<N; i++) {
                 // El fichero con todo

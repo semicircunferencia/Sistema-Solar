@@ -29,26 +29,25 @@ OBJETIVOS:
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <iomanip>
 
 // Número de cuerpos
 #define N 9
 
 // Step temporal
-#define h 1e-4
+#define h 1e-3
 
 // Número de iteraciones
 #define iter 1e6
 
 // Constantes para renormalizar los parámetros
-#define Ms 1.989e30 // Masa del sol
-#define UA 1.496e11 // Unidad astronómica
 #define ctetiempo 0.1593 // Si multiplicas t por esto, sale el tiempo en años
 using namespace std;
 
 // Declaro las funciones
 void leercondiniciales(string nombre, double masas[], double posiciones[][2], double velocidades[][2]);
 void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]);
-void primeraiteracion(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
+void calcularacelentmash(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
 double masas[]);
 void iteracionVerlet(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
 double masas[]);
@@ -71,7 +70,7 @@ int main(void) {
     
     // Calculo las aceleraciones en el instante 0 y 1. Única vez que llamo a estas funciones aqui
     Guniv(posiciones, acelent, masas);
-    primeraiteracion(posiciones, velocidades, acelent, acelentmash, masas);
+    calcularacelentmash(posiciones, velocidades, acelent, acelentmash, masas);
 
     // Abro los ficheros, uno para guardar y otro para Python
     ofstream datos;
@@ -84,20 +83,21 @@ int main(void) {
         // Para cada planeta, pego los datos en los ficheros, pero solo para cada 100 iteraciones
         if(j%100==0) {
             // Escribo el tiempo en el fichero con todo
-            datos << "\n" << ctetiempo*j*h << "\n";
+            datos << ctetiempo*j*h << "\n";
             for(int i=0; i<N; i++) {
                 // El fichero con todo
-                for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
-                for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
-                for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
+                for(int k=0; k<2; k++) datos << setw(15) << posiciones[i][k];
+                for(int k=0; k<2; k++) datos << setw(15) << velocidades[i][k];
+                for(int k=0; k<2; k++) datos << setw(15) << acelent[i][k];
         
                 datos << "\n";
 
-                // El fichero de Python. ORIGEN EN LA TIERRA
-                datospython << posiciones[i][0]-posiciones[3][0] << "," << posiciones[i][1]-posiciones[3][1] << "\n";
+                // El fichero de Python
+                datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
 
             }
 
+            datos << "\n";
             datospython << "\n";
 
         }
@@ -108,12 +108,12 @@ int main(void) {
     }
 
     // Para cada planeta, pego los últimos datos en los ficheros
-    datos << "\n" << ctetiempo*iter*h << "\n";
+    datos << ctetiempo*iter*h << "\n";
     for(int i=0; i<N; i++) {
         // El total
-        for(int k=0; k<2; k++) datos << posiciones[i][k] << "   ";
-        for(int k=0; k<2; k++) datos << velocidades[i][k] << "  ";
-        for(int k=0; k<2; k++) datos << acelent[i][k] << "  ";
+        for(int k=0; k<2; k++) datos << setw(15) << posiciones[i][k];
+        for(int k=0; k<2; k++) datos << setw(15) << velocidades[i][k];
+        for(int k=0; k<2; k++) datos << setw(15) << acelent[i][k];
 
         // El fichero de Python
         datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
@@ -191,7 +191,7 @@ void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]) {
 
 /*Función primera iteración. Calcula las posiciones, velocidades y aceleraciones en el instante h
 a partir de las anteriores, en 0*/
-void primeraiteracion(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
+void calcularacelentmash(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
 double masas[]) {
 
     double posicionesenh[N][2];

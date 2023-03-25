@@ -46,11 +46,14 @@ using namespace std;
 
 // Declaro las funciones
 void leercondiniciales(string nombre, double masas[], double posiciones[][2], double velocidades[][2]);
-void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]);
 void calcularacelentmash(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
 double masas[]);
 void iteracionVerlet(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
 double masas[]);
+void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]);
+double energiakin(double velocidades[][2], double masas[]);
+double energiapot(double posiciones[][2], double masas[]);
+double momentoangular(double posiciones[][2], double velocidades[][2], double masas[]);
 double rVerlet(double r, double v, double a);
 double vVerlet(double v, double a, double a2);
 
@@ -72,11 +75,13 @@ int main(void) {
     Guniv(posiciones, acelent, masas);
     calcularacelentmash(posiciones, velocidades, acelent, acelentmash, masas);
 
-    // Abro los ficheros, uno para guardar y otro para Python
+    // Abro los ficheros, uno para guardar, otro para el vídeo y otro para la energía y momento
     ofstream datos;
     ofstream datospython;
+    ofstream datosenergiaymomento;
     datos.open("Todo.dat");
     datospython.open("planets_data.dat");
+    datosenergiaymomento.open("Energia_y_momento.dat");
 
     // Número de iteraciones en el tiempo
     for(int j=0; j<iter; j++) {
@@ -99,6 +104,11 @@ int main(void) {
 
             datos << "\n";
             datospython << "\n";
+            
+            // Copio los datos de energía y momento angular
+            datosenergiaymomento << setw(15) << j*h << setw(15) <<
+            energiakin(velocidades, masas)+energiapot(posiciones, masas) << setw(15) <<
+            momentoangular(posiciones, velocidades, masas) << "\n";
 
         }
         
@@ -121,8 +131,14 @@ int main(void) {
         datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
     }
 
+    // Energía y momento
+    datosenergiaymomento << setw(15) << iter*h << setw(15) <<
+    energiakin(velocidades, masas)+energiapot(posiciones, masas) << setw(15) <<
+    momentoangular(posiciones, velocidades, masas) << "\n";
+
     datos.close();
     datospython.close();
+    datosenergiaymomento.close();
 
     return 0;
 }
@@ -164,34 +180,8 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
     return;
 }
 
-/*Función Guniv. Calcula ambas componentes de la aceleración de todos los planetas a partir de las masas y las posiciones.*/
-void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]) {
 
-    for(int i=0; i<N; i++) {
-
-        // Inicializo las componentes de las aceleraciones a[i][0] y a[i][1]
-        aceleraciones[i][0]=0; aceleraciones[i][1]=0;
-
-
-        // Sumo la contribución de la masa j, j distinto de i
-        for (int j=0; j<N; j++) {
-            if(j==i) continue;
-            else {
-                // k=1 es la componente x, k=2 es la componente y
-                for(int k=0; k<2; k++) {
-                    aceleraciones[i][k]+=-masas[j]*
-                    (posiciones[i][k]-posiciones[j][k])/
-                    pow(pow(posiciones[i][0]-posiciones[j][0],2)+pow(posiciones[i][1]-posiciones[j][1],2),1.5);
-                }
-            }
-        
-        }
-
-    }
-    return;
-}
-
-/*Función primera iteración. Calcula las posiciones, velocidades y aceleraciones en el instante h
+/*Función calcularacelentmash. Calcula las posiciones, velocidades y aceleraciones en el instante h
 a partir de las anteriores, en 0*/
 void calcularacelentmash(double posiciones[][2], double velocidades[][2], double acelent[][2], double acelentmash[][2],
 double masas[]) {
@@ -249,6 +239,78 @@ double masas[]) {
     }
 
     return;
+}
+
+/*Función Guniv. Calcula ambas componentes de la aceleración de todos los planetas a partir de las masas y las posiciones.*/
+void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]) {
+
+    for(int i=0; i<N; i++) {
+
+        // Inicializo las componentes de las aceleraciones a[i][0] y a[i][1]
+        aceleraciones[i][0]=0; aceleraciones[i][1]=0;
+
+
+        // Sumo la contribución de la masa j, j distinto de i
+        for (int j=0; j<N; j++) {
+            if(j==i) continue;
+            else {
+                // k=1 es la componente x, k=2 es la componente y
+                for(int k=0; k<2; k++) {
+                    aceleraciones[i][k]+=-masas[j]*
+                    (posiciones[i][k]-posiciones[j][k])/
+                    pow(pow(posiciones[i][0]-posiciones[j][0],2)+pow(posiciones[i][1]-posiciones[j][1],2),1.5);
+                }
+            }
+        
+        }
+
+    }
+    return;
+}
+
+/*Función energiakin. Calcula la energía cinética del sistema*/
+double energiakin(double velocidades[][2], double masas[]) {
+    double energia;
+
+    energia=0;
+    for(int i=0; i<N; i++) {
+
+        // Sumo la energía cinética de la masa i
+        energia+=masas[i]*(velocidades[i][0]*velocidades[i][0]+velocidades[i][1]*velocidades[i][1])/2;
+    }
+
+    return energia;
+    
+}
+
+/*Función energiapot. Calcula la energía potencial del sistema en un conjunto de posiciones*/
+double energiapot(double posiciones[][2], double masas[]) {
+    double energia;
+
+    energia=0;
+    for(int i=1; i<N; i++) {
+
+        // Sumo la interacción de la masa k<i con la masa i
+        for(int k=0; k<i; k++) energia+=-masas[i]*masas[k]/sqrt((posiciones[k][0]-posiciones[i][0])*
+        (posiciones[k][0]-posiciones[i][0])+(posiciones[k][1]-posiciones[i][1])*(posiciones[k][1]-posiciones[i][1]));
+    }
+
+    return energia;
+    
+}
+
+/*Función momentoangular. Calcula el momento angular a partir de las masas, posiciones y velocidades*/
+double momentoangular(double posiciones[][2], double velocidades[][2], double masas[]) {
+    double momento;
+
+    momento=0;
+    for(int i=0; i<N; i++) {
+
+        // Sumo la contribución de la masa i. Sabemos que L=m*(x*v_y - y*v_x)
+        momento+=masas[i]*(posiciones[i][0]*velocidades[i][1]-posiciones[i][1]*velocidades[i][0]);
+    }
+
+    return momento;
 }
 
 

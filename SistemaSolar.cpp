@@ -149,6 +149,9 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             fichero >> velocidades[j][1];
         }
 
+        velocidades[6][0]=velocidades[6][1];
+        velocidades[6][1]=0;
+
         fichero.close();
     }
 

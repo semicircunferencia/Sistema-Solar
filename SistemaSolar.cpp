@@ -146,6 +146,7 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
 
             // Lee la velocidad y la asigna a la componente y (comienzan hacia arriba)
             fichero >> velocidades[j][1];
+            srand((unsigned) time(NULL));
             velocidades[j][0]=velocidades[j][1]*(rand() % 1);
             velocidades[j][1]=sqrt(velocidades[j][1]*velocidades[j][1]-velocidades[j][0]*velocidades[j][0]);
         }

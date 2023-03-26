@@ -30,8 +30,6 @@ OBJETIVOS:
 #include <fstream>
 #include <cmath>
 #include <iomanip>
-#include <stdlib.h>
-#include <time.h>
 
 // Número de cuerpos
 #define N 9
@@ -150,13 +148,9 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             posiciones[j][1]=0;
 
             // Lee la velocidad y la asigna a la componente y (comienzan hacia arriba)
+            velocidades[j][0]=0;
             fichero >> velocidades[j][1];
-            velocidades[j][0]=velocidades[j][1]*((double)rand()/(double)RAND_MAX);
-            cout << velocidades[j][0] << "\n";
-            velocidades[j][1]=sqrt(velocidades[j][1]*velocidades[j][1]-velocidades[j][0]*velocidades[j][0]);
 
-            
-            cout << velocidades[j][1] << "\n";
         }
 
 

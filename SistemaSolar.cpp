@@ -30,6 +30,7 @@ OBJETIVOS:
 #include <fstream>
 #include <cmath>
 #include <iomanip>
+#include <stdlib.h>
 #include <time.h>
 
 // Número de cuerpos
@@ -135,6 +136,9 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
     ifstream fichero;
     fichero.open(nombre);
 
+    srand((unsigned) time(NULL));
+    rand();
+
     // Si encuentra el archivo, copia su contenido en los tres vectores
     if(fichero.is_open()) {
         for(int j=0; j<N; j++) {
@@ -147,7 +151,6 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
 
             // Lee la velocidad y la asigna a la componente y (comienzan hacia arriba)
             fichero >> velocidades[j][1];
-            srand((unsigned) time(NULL));
             velocidades[j][0]=velocidades[j][1]*(rand() % 1);
             velocidades[j][1]=sqrt(velocidades[j][1]*velocidades[j][1]-velocidades[j][0]*velocidades[j][0]);
         }

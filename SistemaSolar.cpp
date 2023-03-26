@@ -145,12 +145,11 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             posiciones[j][1]=0;
 
             // Lee la velocidad y la asigna a la componente y (comienzan hacia arriba)
-            velocidades[j][0]=0;
             fichero >> velocidades[j][1];
+            velocidades[j][0]=velocidades[j][1]*(rand() % 1);
+            velocidades[j][1]=sqrt(velocidades[j][1]^2-velocidades[j][0]^2);
         }
 
-        velocidades[6][0]=velocidades[6][1];
-        velocidades[6][1]=0;
 
         fichero.close();
     }

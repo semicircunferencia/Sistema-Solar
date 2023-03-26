@@ -30,7 +30,7 @@ OBJETIVOS:
 #include <fstream>
 #include <cmath>
 #include <iomanip>
-#include <cstdlib>
+#include <time.h>
 
 // Número de cuerpos
 #define N 9

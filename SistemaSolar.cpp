@@ -136,7 +136,7 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
     ifstream fichero;
     fichero.open(nombre);
 
-    srand((unsigned) time(NULL));
+    srand(time(NULL));
     rand();
 
     // Si encuentra el archivo, copia su contenido en los tres vectores
@@ -151,8 +151,12 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
 
             // Lee la velocidad y la asigna a la componente y (comienzan hacia arriba)
             fichero >> velocidades[j][1];
-            velocidades[j][0]=velocidades[j][1]*(rand() % 1);
+            velocidades[j][0]=velocidades[j][1]*((double)rand()/(double)RAND_MAX);
+            cout << velocidades[j][0] << "\n";
             velocidades[j][1]=sqrt(velocidades[j][1]*velocidades[j][1]-velocidades[j][0]*velocidades[j][0]);
+
+            
+            cout << velocidades[j][1] << "\n";
         }
 
 

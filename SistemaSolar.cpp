@@ -193,7 +193,7 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             for(int k=0; k<2; k++) momento[k]+=-masas[j]*velocidad[j][k];
         }
 
-        for(int k=0; k<2; k++) velocidad[0][k]=momento[k]/masas[0];
+        for(int k=0; k<2; k++) velocidades[0][k]=momento[k]/masas[0];
 
 
         fichero.close();

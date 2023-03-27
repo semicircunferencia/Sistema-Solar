@@ -134,9 +134,6 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
     ifstream fichero;
     fichero.open(nombre);
 
-    srand(time(NULL));
-    rand();
-
     // Si encuentra el archivo, copia su contenido en los tres vectores
     if(fichero.is_open()) {
         for(int j=0; j<N; j++) {

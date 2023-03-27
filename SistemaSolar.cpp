@@ -35,10 +35,10 @@ OBJETIVOS:
 #define N 9
 
 // Step temporal
-#define h 1e-4
+#define h 1e-3
 
 // Número de iteraciones
-#define iter 1.5e5
+#define iter 1.1e6
 
 // Constantes para renormalizar los parámetros
 #define ctetiempo 0.1593 // Si multiplicas t por esto, sale el tiempo en años
@@ -351,13 +351,12 @@ void integralangulo(double angulos[], double posiciones[][2], double velocidades
     // Sumo el incremento de posición angular. Para el Sol (i=0) no
     for(int i=1; i<N; i++) {
         if(!vueltadada[i]) {
-            radio2=posiciones[i][0]*posiciones[i][0]+posiciones[i][1]*posiciones[i][1];
-            modulovel2=velocidades[i][0]*velocidades[i][0]+velocidades[i][1]*velocidades[i][1];
-            producto=posiciones[i][0]*velocidades[i][0]+posiciones[i][1]*velocidades[i][1];
-            angulos[i]+=h*sqrt((modulovel2-producto*producto/radio2)/radio2);
+            radio2=posiciones[i][0]*posiciones[i][0]+posiciones[i][1]*posiciones[i][1];;
+            producto=posiciones[i][0]*velocidades[i][1]-velocidades[i][0]*posiciones[i][1];
+            angulos[i]+=h*producto/radio2;
 
             // Si el ángulo supera los 2pi radianes, ha dado la vuelta
-            if(angulos[i]>=6.2832) vueltadada[i]=true;
+            if(abs(angulos[i]>=6.2832)) vueltadada[i]=true;
         }
         
         

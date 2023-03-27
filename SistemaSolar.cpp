@@ -130,7 +130,7 @@ int main(void) {
         // Imprimo si la vuelta está dada y el periodo no está impreso todavía
         for(int i=1; i<N; i++) {
             if(vueltadada[i] && !periodoimpreso[i]) {
-                datosperiodos << setw(15) << "Planeta " << i << setw(15) << ctetiempo*j*h << "\n";
+                datosperiodos << "Planeta " << i << setw(15) << ctetiempo*j*h << "\n";
 
                 // El periodo está impreso
                 periodoimpreso[i]=true;

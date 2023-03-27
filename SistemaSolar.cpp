@@ -190,7 +190,7 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
         for(int k=0; k<2; k++) momento[k]=0;
         for(int j=1; j<N; j++) {
             // Componente k
-            for(int k=0; k<2; k++) momento[k]+=-masas[j]*velocidad[j][k];
+            for(int k=0; k<2; k++) momento[k]+=-masas[j]*velocidades[j][k];
         }
 
         for(int k=0; k<2; k++) velocidades[0][k]=momento[k]/masas[0];

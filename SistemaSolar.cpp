@@ -344,7 +344,6 @@ double momentoangular(double posiciones[][2], double velocidades[][2], double ma
 /*Función integralangulo. Añade el incremento de posición angular a cada planeta*/
 void integralangulo(double angulos[], double posiciones[][2], double velocidades[][2], bool vueltadada[]) {
 
-    double modulovel2;
     double radio2;
     double producto;
     

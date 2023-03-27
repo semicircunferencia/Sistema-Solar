@@ -54,6 +54,7 @@ void Guniv(double posiciones[][2], double aceleraciones[][2], double masas[]);
 double energiakin(double velocidades[][2], double masas[]);
 double energiapot(double posiciones[][2], double masas[]);
 double momentoangular(double posiciones[][2], double velocidades[][2], double masas[]);
+void integralangulo(double angulos[], double posiciones[][2], double velocidades[][2], bool vueltadada[]);
 double rVerlet(double r, double v, double a);
 double vVerlet(double v, double a, double a2);
 
@@ -67,21 +68,32 @@ int main(void) {
     double velocidades[N][2];
     double acelent[N][2];
     double acelentmash[N][2];
+    double angulos[N];
+    bool vueltadada[N];
+    bool periodoimpreso[N];
 
     // Leo las condiciones iniciales
     leercondiniciales("Condiniciales.txt", masas, posiciones, velocidades);
+
+    // Inicializo los ángulos a 0 y los booleanos a falso
+    for(int i=1; i<N; i++) angulos[i]=0;
+    for(int i=1; i<N; i++) vueltadada[i]=false;
+    for(int i=1; i<N; i++) periodoimpreso[i]=false;
     
     // Calculo las aceleraciones en el instante 0 y 1. Única vez que llamo a estas funciones aqui
     Guniv(posiciones, acelent, masas);
     calcularacelentmash(posiciones, velocidades, acelent, acelentmash, masas);
 
-    // Abro los ficheros, uno para guardar, otro para el vídeo y otro para la energía y momento
+    // Abro los ficheros: uno para guardar, uno para el vídeo, uno para la energía y momento y otro para los periodos
     ofstream datos;
     ofstream datospython;
     ofstream datosenergiaymomento;
+    ofstream datosperiodos;
+
     datos.open("Todo.dat");
     datospython.open("planets_data.dat");
     datosenergiaymomento.open("Energia_y_momento.dat");
+    datosperiodos.open("Periodos.dat");
 
     // Número de iteraciones en el tiempo
     for(int j=0; j<=iter; j++) {
@@ -105,12 +117,26 @@ int main(void) {
             datos << "\n";
             datospython << "\n";
             
-            // Copio los datos de energía y momento angular
+            // Escribo los datos de energía y momento angular en su fichero
             datosenergiaymomento << setw(15) << j*h << setw(15) <<
             energiakin(velocidades, masas)+energiapot(posiciones, masas) << setw(15) <<
             momentoangular(posiciones, velocidades, masas) << "\n";
 
         }
+
+        // Añado la contribución al ángulo y compruebo si se ha completado una vuelta
+        integralangulo(angulos, posiciones, velocidades, vueltadada);
+
+        // Imprimo si la vuelta está dada y el periodo no está impreso todavía
+        for(int i=1; i<N; i++) {
+            if(vueltadada[i] && !periodoimpreso[i]) {
+                datosperiodos << setw(15) << "Planeta " << i << setw(15) << ctetiempo*j*h << "\n";
+
+                // El periodo está impreso
+                periodoimpreso[i]=true;
+            }
+        }
+        
         
 
         // Calculo los nuevos parámetros
@@ -120,6 +146,7 @@ int main(void) {
     datos.close();
     datospython.close();
     datosenergiaymomento.close();
+    datosperiodos.close();
 
     return 0;
 }
@@ -129,6 +156,10 @@ int main(void) {
 /*Función leercondiniciales. Lee el fichero de condiciones iniciales, de tres columnas, una con las masas, otra 
 con las posiciones y otra con las velocidades. Lo asigna a los vectores o arrays correspondientes*/
 void leercondiniciales(string nombre, double masas[], double posiciones[][2], double velocidades[][2]) {
+
+    // Defino radio y ángulo
+    double radio[N];
+    double angulo[N]; 
 
     // Intento abrir el fichero
     ifstream fichero;
@@ -141,11 +172,14 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             fichero >> masas[j];
 
             // Lee la posición y la asigna a la componente x, la componente y será 0 (empiezan alineados)
-            fichero >> posiciones[j][0];
-            posiciones[j][1]=0;
+            fichero >> radio[j];
+            fichero >> angulo[j];
+
+            posiciones[j][0]=radio[j]*cos(angulo[j]);
+            posiciones[j][1]=radio[j]*sin(angulo[j]);
 
             // Lee la velocidad y la asigna a la componente y (comienzan hacia arriba)
-            velocidades[j][0]=0;
+            fichero >> velocidades[j][0];
             fichero >> velocidades[j][1];
 
         }
@@ -296,6 +330,31 @@ double momentoangular(double posiciones[][2], double velocidades[][2], double ma
     return momento;
 }
 
+/*Función integralangulo. Añade el incremento de posición angular a cada planeta*/
+void integralangulo(double angulos[], double posiciones[][2], double velocidades[][2], bool vueltadada[]) {
+
+    double modulovel2;
+    double radio2;
+    double producto;
+    
+    // Sumo el incremento de posición angular. Para el Sol (i=0) no
+    for(int i=1; i<N; i++) {
+        if(!vueltadada[i]) {
+            radio2=posiciones[i][0]*posiciones[i][0]+posiciones[i][1]*posiciones[i][1];
+            modulovel2=velocidades[i][0]*velocidades[i][0]+velocidades[i][1]*velocidades[i][1];
+            producto=posiciones[i][0]*velocidades[i][0]+posiciones[i][1]*velocidades[i][1];
+            angulos[i]+=h*sqrt((modulovel2-producto*producto/radio2)/radio2);
+
+            // Si el ángulo supera los 2pi radianes, ha dado la vuelta
+            if(angulos[i]>=6.2832) vueltadada[i]=true;
+        }
+        
+        
+    }
+
+    return;
+
+}
 
 /*Función rVerlet. Calcula la nueva posición r a partir de los parámetros r, v y a anteriores. h es el paso temporal*/
 double rVerlet(double r, double v, double a) {

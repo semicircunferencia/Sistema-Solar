@@ -358,7 +358,7 @@ void integralangulo(double angulos[], double posiciones[][2], double velocidades
             angulos[i]+=h*producto/radio2;
 
             // Si el ángulo supera los 2pi radianes, ha dado la vuelta
-            if(abs(angulos[i]>=6.2832)) vueltadada[i]=true;
+            if(abs(angulos[i])>=6.2832) vueltadada[i]=true;
         }
         
         

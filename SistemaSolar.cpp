@@ -68,6 +68,8 @@ int main(void) {
     double velocidades[N][2];
     double acelent[N][2];
     double acelentmash[N][2];
+
+    // Para controlar los periodos
     double angulos[N];
     bool vueltadada[N];
     bool periodoimpreso[N];
@@ -341,7 +343,7 @@ double momentoangular(double posiciones[][2], double velocidades[][2], double ma
     return momento;
 }
 
-/*Función integralangulo. Añade el incremento de posición angular a cada planet. Si el planeta acaba de completar 
+/*Función integralangulo. Añade el incremento de posición angular a cada planeta. Si el planeta acaba de completar 
 la vuelta, cambia el valor del booleano vueltadada*/
 void integralangulo(double angulos[], double posiciones[][2], double velocidades[][2], bool vueltadada[]) {
 

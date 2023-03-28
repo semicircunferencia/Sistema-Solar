@@ -159,10 +159,6 @@ int main(void) {
 con las posiciones y otra con las velocidades. Lo asigna a los vectores o arrays correspondientes*/
 void leercondiniciales(string nombre, double masas[], double posiciones[][2], double velocidades[][2]) {
 
-    // Defino radio y ángulo
-    double radio[N];
-    double angulo[N]; 
-
     // Intento abrir el fichero
     ifstream fichero;
     fichero.open(nombre);
@@ -174,11 +170,8 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             fichero >> masas[j];
 
             // Lee la posición inicial a partir del radio y ángulo
-            fichero >> radio[j];
-            fichero >> angulo[j];
-
-            posiciones[j][0]=radio[j]*cos(angulo[j]);
-            posiciones[j][1]=radio[j]*sin(angulo[j]);
+            fichero >> posiciones[j][0];
+            fichero >> posiciones[j][1];
 
             // Lee las velocidades iniciales en los ejes x e y, respectivamente
             fichero >> velocidades[j][0];

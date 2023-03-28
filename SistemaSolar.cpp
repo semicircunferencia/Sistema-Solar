@@ -112,7 +112,7 @@ int main(void) {
                 datos << "\n";
 
                 // El fichero de Python
-                datospython << posiciones[i][0]-posiciones[3][0] << "," << posiciones[i][1]-posiciones[3][1] << "\n";
+                datospython << posiciones[i][0] << "," << posiciones[i][1] << "\n";
 
             }
 

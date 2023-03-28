@@ -171,14 +171,14 @@ void leercondiniciales(string nombre, double masas[], double posiciones[][2], do
             // Lee la masa
             fichero >> masas[j];
 
-            // Lee la posición y la asigna a la componente x, la componente y será 0 (empiezan alineados)
+            // Lee la posición inicial a partir del radio y ángulo
             fichero >> radio[j];
             fichero >> angulo[j];
 
             posiciones[j][0]=radio[j]*cos(angulo[j]);
             posiciones[j][1]=radio[j]*sin(angulo[j]);
 
-            // Lee la velocidad y la asigna a la componente y (comienzan hacia arriba)
+            // Lee las velocidades iniciales en los ejes x e y, respectivamente
             fichero >> velocidades[j][0];
             fichero >> velocidades[j][1];
 
@@ -341,7 +341,8 @@ double momentoangular(double posiciones[][2], double velocidades[][2], double ma
     return momento;
 }
 
-/*Función integralangulo. Añade el incremento de posición angular a cada planeta*/
+/*Función integralangulo. Añade el incremento de posición angular a cada planet. Si el planeta acaba de completar 
+la vuelta, cambia el valor del booleano vueltadada*/
 void integralangulo(double angulos[], double posiciones[][2], double velocidades[][2], bool vueltadada[]) {
 
     double radio2;

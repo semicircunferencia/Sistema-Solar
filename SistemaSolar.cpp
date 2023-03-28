@@ -35,10 +35,10 @@ OBJETIVOS:
 #define N 9
 
 // Step temporal
-#define h 1e-4
+#define h 1e-3
 
 // Número de iteraciones
-#define iter 1.5e5
+#define iter 1.1e6
 
 // Constantes para renormalizar los parámetros
 #define ctetiempo 0.1593 // Si multiplicas t por esto, sale el tiempo en años

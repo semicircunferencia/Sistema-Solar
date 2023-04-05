@@ -1,0 +1,1 @@
+Datos del sistema solar, tanto sin perturbar como perturbado. También se incluyen las posiciones para dibujarlo con origen en la Tierra (modelo geocéntrico)

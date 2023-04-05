@@ -1,0 +1,1 @@
+Gráfica de la energía en función del tiempo. Vídeos del sistema solar de distintos modos: sin perturbar, perturbado, dibujado desde la Tierra (modelo geocéntrico), doblando la velocidad de Mercurio... A veces se grafica todo, otras solo los planetas interiores.
